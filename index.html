@@ -2,83 +2,48 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Bienvenue sur la plateforme DGPE – DGPE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DGPE e-Learning</title>
 
-  <!-- ✅ BON CHEMIN CSS -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- 🔐 Redirection automatique vers login -->
+  <script>
+    window.location.replace("login.html");
+  </script>
 </head>
 
-<body class="">
-
-<div class="navbar">
-  <div class="wrap">
-    <div class="logo-group">
-      <!-- ✅ BON CHEMIN LOGO -->
-      <img src="assets/DGPE_Logo.png" class="logo" alt="DGPE">
-      <span class="brand">e-Learning</span>
+<body>
+  <!-- Fallback si JS désactivé -->
+  <noscript>
+    <div style="
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:Arial;
+      background:#0b1a2b;
+      color:white;
+      text-align:center;
+      padding:20px;
+    ">
+      <div>
+        <h1>DGPE e-Learning</h1>
+        <p>JavaScript est requis pour accéder à la plateforme.</p>
+        <a href="login.html" style="
+          display:inline-block;
+          margin-top:16px;
+          padding:10px 20px;
+          background:#1e66ff;
+          color:white;
+          text-decoration:none;
+          border-radius:20px;
+        ">
+          Accéder à la connexion
+        </a>
+      </div>
     </div>
-
-    <nav class="nav">
-      <a href="index.html">Accueil</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="module.html">Module</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="administration.html">Administration</a>
-      <a href="login.html" class="pill">Déconnexion</a>
-    </nav>
-
-    <button class="burger" aria-label="Menu"><span></span></button>
-  </div>
-</div>
-
-<aside class="offcanvas" aria-hidden="true">
-  <div class="close" aria-label="Fermer">✕</div>
-
-  <!-- ✅ BON CHEMIN LOGO -->
-  <img src="assets/DGPE_Logo.png" class="logo" alt="DGPE">
-
-  <div class="menu">
-    <a href="index.html">Accueil</a>
-    <a href="catalogue.html">Catalogue</a>
-    <a href="module.html">Module</a>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="administration.html">Administration</a>
-    <a href="login.html">Déconnexion</a>
-  </div>
-</aside>
-
-<section class="hero stripes">
-  <div class="inner">
-    <h1>Bienvenue sur la plateforme DGPE</h1>
-    <p>Votre espace d’apprentissage en ligne</p>
-    <a class="btn" href="catalogue.html">Explorer le catalogue</a>
-  </div>
-</section>
-
-<section class="section">
-  <div class="cards">
-    <div class="card">
-      <h3>Formations certifiantes</h3>
-      <p>Parcours structurés avec évaluations, badges et attestations.</p>
-    </div>
-    <div class="card">
-      <h3>Accessibilité RGAA</h3>
-      <p>Expérience inclusive et optimisée mobile.</p>
-    </div>
-    <div class="card">
-      <h3>Suivi et reporting</h3>
-      <p>Tableaux de bord pour apprenants, formateurs et administrateurs.</p>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  © 2025 DGPE – Direction Générale du Portefeuille de l’État
-</footer>
-
-<!-- ✅ BON CHEMIN JS -->
-<script src="app.js"></script>
-
+  </noscript>
 </body>
 </html>
