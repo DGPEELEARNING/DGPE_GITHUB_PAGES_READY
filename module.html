@@ -1,134 +1,151 @@
 <!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Module – DGPE</title>
-    <link rel="stylesheet" href="./style.css">
-
-    <!-- 🔐 AUTH GUARD -->
-    <script type="module">
-        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-
-        const supabase = createClient(
-            "https://yshmhrsartwjctbpevup.supabase.co",
-            "sb_publishable_Pf0iAehofCt4_VpHddUcWQ_rdxhfeEh"
-        );
-
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            window.location.href = "login.html";
-        }
-    </script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Module – DGPE</title>
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
 <!-- ================= NAVBAR ================= -->
-<header class="navbar">
-    <div class="wrap">
-        <div class="logo-group">
-            <img src="./assets/img/dgpe-logo.png" class="logo" alt="DGPE">
-            <span class="brand">e-Learning</span>
-        </div>
-        <nav class="nav">
-            <a href="index.html">Accueil</a>
-            <a href="catalogue.html">Catalogue</a>
-            <a href="dashboard.html">Dashboard</a>
-            <button id="logoutBtn" class="pill">Déconnexion</button>
-        </nav>
-        <button class="burger" aria-label="Menu"><span></span></button>
+<div class="navbar-login">
+  <div class="wrap">
+    <div class="logo-group">
+      <div class="logo-wrapper">
+        <img src="./assets/img/DGPE_logo.png" class="logo" alt="DGPE">
+      </div>
+      <span class="brand">e-Learning</span> 
     </div>
-</header>
+
+    <div class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">Administration</a>
+      <a class="btn-small" href="login.html">Déconnexion</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="inner">
+    <h1 id="titre">Chargement...</h1>
+    <p id="description"></p>
+  </div>
+</section>
 
 <!-- ================= CONTENU ================= -->
-<main class="page">
+<section class="wrap" style="padding:50px 0">
 
-    <section class="panel" id="modulePanel">
-        <p class="muted">Chargement du module…</p>
-    </section>
+  <div class="panel" id="moduleCard">
+    <h2 id="moduleTitle"></h2>
 
-</main>
+    <p><strong>Domaine :</strong> <span id="moduleDomaine"></span></p>
+    <p><strong>Durée :</strong> <span id="moduleDuree"></span></p>
 
-<!-- ================= FOOTER ================= -->
+    <p id="moduleResume" style="margin-top:10px;"></p>
+
+    <button class="btn btn-primary" onclick="inscrireModule()">
+      ✅ S'inscrire à ce module
+    </button>
+
+    <div id="message" style="margin-top:20px;font-weight:bold"></div>
+  </div>
+
+</section>
+
 <footer class="footer">
-    © 2025 DGPE – Direction Générale du Portefeuille de l’État
+© 2025 DGPE – Direction Générale du Portefeuille de l’État
 </footer>
 
-<!-- ================= SUPABASE ================= -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-    const supabaseClient = supabase.createClient(
-        "https://yshmhrsartwjctbpevup.supabase.co",
-        "sb_publishable_Pf0iAehofCt4_VpHddUcWQ_rdxhfeEh"
-    );
+/* ================= SUPABASE ================= */
+const supabaseUrl =https://yshmhrsartwjctbpevup.supabase.co;
+const supabaseKey = sb_publishable_Pf0iAehofCt4_VpHddUcWQ_rdxhfeEh;
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    /* ================= UTIL ================= */
-    const params = new URLSearchParams(window.location.search);
-    const moduleId = params.get("id");
+/* ================= ID MODULE ================= */
+const params = new URLSearchParams(window.location.search);
+const moduleId = params.get("id");
 
-    /* ================= CHARGER MODULE ================= */
-    async function chargerModule() {
-        const panel = document.getElementById("modulePanel");
+let moduleActuel = null;
 
-        if (!moduleId) {
-            panel.innerHTML = "<p class='error'>❌ Module introuvable</p>";
-            return;
-        }
+/* ================= CHARGEMENT MODULE ================= */
+async function chargerModule() {
+  if (!moduleId) {
+    document.getElementById("moduleCard").innerHTML = "❌ Aucun module sélectionné";
+    return;
+  }
 
-        const { data, error } = await supabaseClient
-            .from("modules")
-            .select("*")
-            .eq("id", moduleId)
-            .single();
+  const { data, error } = await supabase
+    .from("modules")
+    .select("*")
+    .eq("id", moduleId)
+    .single();
 
-        if (error || !data) {
-            console.error(error);
-            panel.innerHTML = "<p class='error'>❌ Erreur de chargement du module</p>";
-            return;
-        }
+  if (error || !data) {
+    console.error(error);
+    document.getElementById("moduleCard").innerHTML = "❌ Module introuvable";
+    return;
+  }
 
-        panel.innerHTML = `
-            <h2>${data.titre}</h2>
-            <p class="muted">Domaine : ${data.domaine} • Durée : ${data.duree}</p>
-            <p>${data.description || data.resume}</p>
+  moduleActuel = data;
 
-            <div class="module-actions">
-                <label>
-                    <input type="checkbox" id="subscribeCheckbox">
-                    S'inscrire à ce module
-                </label>
-                <br>
+  document.getElementById("titre").innerText = data.titre;
+  document.getElementById("moduleTitle").innerText = data.titre;
+  document.getElementById("moduleDomaine").innerText = data.domaine;
+  document.getElementById("moduleDuree").innerText = data.duree;
+  document.getElementById("moduleResume").innerText = data.resume;
+}
 
-                <a href="catalogue.html" class="btn" style="margin-top:20px">
-                    ← Retour au catalogue
-                </a>
-            </div>
-        `;
+chargerModule();
 
-        // Logic to handle the subscription checkbox
-        document.getElementById("subscribeCheckbox").addEventListener("change", function() {
-            if (this.checked) {
-                // Logic to subscribe to the module
-                console.log("Module inscrit !");
-            } else {
-                console.log("Désinscrit du module.");
-            }
-        });
-    }
+/* ================= INSCRIPTION SÉCURISÉE ================= */
+async function inscrireModule() {
+  const { data: userData } = await supabase.auth.getUser();
 
-    /* ================= LOGOUT ================= */
-    document.getElementById("logoutBtn").onclick = async () => {
-        await supabaseClient.auth.signOut();
-        window.location.href = "login.html";
-    };
+  if (!userData.user) {
+    alert("⚠️ Vous devez être connecté !");
+    return;
+  }
 
-    /* ================= INIT ================= */
-    chargerModule();
+  const userId = userData.user.id;
+
+  // ✅ Vérification anti-double inscription
+  const { data: existant } = await supabase
+    .from("inscriptions")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("module_id", moduleActuel.id)
+    .single();
+
+  if (existant) {
+    document.getElementById("message").innerText =
+      "❌ Vous êtes déjà inscrit à ce module.";
+    return;
+  }
+
+  const { error } = await supabase
+    .from("inscriptions")
+    .insert([{
+      user_id: userId,
+      module_id: moduleActuel.id,
+      module_nom: moduleActuel.titre
+    }]);
+
+  if (error) {
+    document.getElementById("message").innerText =
+      "❌ Erreur lors de l'inscription.";
+  } else {
+    document.getElementById("message").innerText =
+      "✅ Inscription validée avec succès !";
+  }
+}
 </script>
-
-<script src="./assets/js/app.js"></script>
 
 </body>
 </html>
