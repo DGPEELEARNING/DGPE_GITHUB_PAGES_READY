@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Catalogue – DGPE</title>
 <link rel="stylesheet" href="./style.css">
 </head>
@@ -10,34 +10,39 @@
 <body>
 
 <!-- ================= NAVBAR ================= -->
-<div class="navbar"><div class="wrap">
+<header class="navbar">
+  <div class="wrap">
 
-  <div class="logo-group">
-    <div class="logo-wrapper">
+    <div class="logo-group">
       <img src="./assets/img/dgpe-logo.png" class="logo" alt="DGPE">
+      <span class="brand">e-Learning</span>
     </div>
-    <span class="brand">e-Learning</span>
+
+    <nav class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="catalogue.html" class="active">Catalogue</a>
+      <a href="module.html">Module</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="administration.html">Administration</a>
+      <a href="login.html" class="pill">Déconnexion</a>
+    </nav>
+
+    <button class="burger" aria-label="Menu"><span></span></button>
   </div>
-
-  <nav class="nav">
-    <a href="index.html">Accueil</a>
-    <a href="catalogue.html" class="active">Catalogue</a>
-    <a href="module.html">Module</a>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="administration.html">Administration</a>
-    <a href="login.html" class="pill">Déconnexion</a>
-  </nav>
-
-  <button class="burger" aria-label="Menu"><span></span></button>
-</div></div>
+</header>
 
 <!-- ================= CONTENU ================= -->
-<div class="page">
+<main class="page">
 
-  <div class="panel">
+  <section class="panel">
     <h2>Catalogue des formations</h2>
 
-    <input id="searchInput" class="input" placeholder="Rechercher un module…">
+    <input
+      id="searchInput"
+      class="input"
+      type="text"
+      placeholder="Rechercher un module…"
+    >
 
     <select id="filterDomaine" class="input">
       <option value="">Tous domaines</option>
@@ -52,50 +57,57 @@
       <option>RSE</option>
     </select>
 
-    <a class="btn" onclick="chargerModules()">Rechercher</a>
+    <button class="btn" type="button" id="btnSearch">
+      Rechercher
+    </button>
+  </section>
 
-    <!-- ===== RÉSULTATS ===== -->
-    <div class="panel" style="margin-top:16px;">
-      <h3>Résultats</h3>
-      <div class="modules-grid" id="modulesGrid"></div>
+  <!-- ================= RÉSULTATS ================= -->
+  <section class="panel" style="margin-top:16px;">
+    <h3>Résultats</h3>
+    <div id="modulesGrid" class="modules-grid">
+      <p class="muted">Chargement des modules…</p>
     </div>
+  </section>
 
-  </div>
-
-</div>
+</main>
 
 <!-- ================= FOOTER ================= -->
 <footer class="footer">
   © 2025 DGPE – Direction Générale du Portefeuille de l’État
 </footer>
 
-<!-- ✅ SUPABASE OFFICIEL -->
+<!-- ================= SUPABASE ================= -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+/* ================= SUPABASE CONFIG ================= */
 const supabaseUrl = "https://yshmhrsartwjctbpevup.supabase.co";
 const supabaseKey = "sb_publishable_Pf0iAehofCt4_VpHddUcWQ_rdxhfeEh";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-// ✅ CHARGEMENT DES MODULES
+/* ================= CHARGEMENT DES MODULES ================= */
 async function chargerModules() {
   const grid = document.getElementById("modulesGrid");
   const recherche = document.getElementById("searchInput").value.toLowerCase();
   const domaine = document.getElementById("filterDomaine").value;
 
-  grid.innerHTML = "Chargement...";
+  grid.innerHTML = "<p class='muted'>Chargement…</p>";
 
-  let query = supabaseClient.from("modules").select("*").order("id");
+  let query = supabaseClient
+    .from("modules")
+    .select("*")
+    .order("id", { ascending: true });
 
-  if (domaine !== "") {
+  if (domaine) {
     query = query.eq("domaine", domaine);
   }
 
   const { data, error } = await query;
 
   if (error) {
-    grid.innerHTML = "❌ Erreur chargement modules";
     console.error(error);
+    grid.innerHTML = "<p class='error'>❌ Erreur de chargement des modules</p>";
     return;
   }
 
@@ -103,20 +115,30 @@ async function chargerModules() {
     m.titre.toLowerCase().includes(recherche)
   );
 
+  if (modulesFiltres.length === 0) {
+    grid.innerHTML = "<p class='muted'>Aucun module trouvé</p>";
+    return;
+  }
+
   grid.innerHTML = "";
 
   modulesFiltres.forEach(m => {
     grid.innerHTML += `
       <a href="module.html?id=${m.id}" class="card">
         <h3>${m.titre}</h3>
-        <p style="color:#a7b1bd">${m.domaine} • ${m.duree}</p>
+        <p class="muted">${m.domaine} • ${m.duree}</p>
         <p>${m.resume}</p>
       </a>
     `;
   });
 }
 
-// ✅ CHARGEMENT AUTO AU DÉMARRAGE
+/* ================= EVENTS ================= */
+document.getElementById("btnSearch").addEventListener("click", chargerModules);
+document.getElementById("searchInput").addEventListener("input", chargerModules);
+document.getElementById("filterDomaine").addEventListener("change", chargerModules);
+
+/* ================= AUTO LOAD ================= */
 chargerModules();
 </script>
 
