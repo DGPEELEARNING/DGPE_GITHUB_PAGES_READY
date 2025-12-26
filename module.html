@@ -27,7 +27,6 @@ if (!session) {
 <!-- ================= NAVBAR ================= -->
 <header class="navbar">
   <div class="wrap">
-
     <div class="logo-group">
       <img src="./assets/img/dgpe-logo.png" class="logo" alt="DGPE">
       <span class="brand">e-Learning</span>
@@ -46,11 +45,9 @@ if (!session) {
 
 <!-- ================= CONTENU ================= -->
 <main class="page">
-
   <section class="panel" id="modulePanel">
     <p class="muted">Chargement du module…</p>
   </section>
-
 </main>
 
 <!-- ================= FOOTER ================= -->
@@ -62,16 +59,17 @@ if (!session) {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
+// Initialisation de Supabase
 const supabaseClient = supabase.createClient(
   "https://yshmhrsartwjctbpevup.supabase.co",
   "sb_publishable_Pf0iAehofCt4_VpHddUcWQ_rdxhfeEh"
 );
 
-/* ================= UTIL ================= */
+// Récupération de l'ID du module dans l'URL
 const params = new URLSearchParams(window.location.search);
 const moduleId = params.get("id");
 
-/* ================= CHARGER MODULE ================= */
+// Fonction pour charger le module
 async function chargerModule() {
   const panel = document.getElementById("modulePanel");
 
@@ -95,30 +93,19 @@ async function chargerModule() {
   panel.innerHTML = `
     <h2>${data.titre}</h2>
     <p class="muted">${data.domaine} • ${data.duree}</p>
-
     <p style="margin-top:12px">${data.description || data.resume}</p>
-
-    ${
-      data.video_url
-      ? `<div class="video-wrap">
-           <iframe src="${data.video_url}" allowfullscreen></iframe>
-         </div>`
-      : ""
-    }
-
-    <a href="catalogue.html" class="btn" style="margin-top:20px">
-      ← Retour au catalogue
-    </a>
+    ${data.video_url ? `<div class="video-wrap"><iframe src="${data.video_url}" allowfullscreen></iframe></div>` : ""}
+    <a href="catalogue.html" class="btn" style="margin-top:20px">← Retour au catalogue</a>
   `;
 }
 
-/* ================= LOGOUT ================= */
+// Bouton de déconnexion
 document.getElementById("logoutBtn").onclick = async () => {
   await supabaseClient.auth.signOut();
   window.location.href = "login.html";
 };
 
-/* ================= INIT ================= */
+// Initialisation du chargement du module
 chargerModule();
 </script>
 
