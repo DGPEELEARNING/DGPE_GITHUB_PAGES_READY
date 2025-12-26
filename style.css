@@ -15,6 +15,7 @@
 html, body {
   margin: 0;
   padding: 0;
+  min-height: 100%;
 }
 
 /* ================= BACKGROUND ================= */
@@ -23,13 +24,15 @@ body {
   color: var(--text);
   min-height: 100vh;
 
-  background: url("/DGPE_GITHUB_PAGES_READY/actifs/img/fond-nuit.jpg")
-              center / cover fixed no-repeat;
+  /* 🌙 Fond nuit */
+  background: url("asset/img/fond-nuit.jpg")
+              center / cover no-repeat fixed;
 }
 
+/* ☀️ Fond jour LOGIN */
 body.login-page {
-  background: url("/DGPE_GITHUB_PAGES_READY/actifs/img/fond-jour.jpg")
-              center / cover fixed no-repeat;
+  background: url("asset/img/fond-jour.jpg")
+              center / cover no-repeat fixed;
 }
 
 /* ================= NAVBAR ================= */
@@ -76,7 +79,6 @@ body.login-page {
   font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
-
   animation: pulseGlow 2.5s ease-in-out infinite;
 }
 
@@ -94,38 +96,12 @@ body.login-page {
   }
 }
 
-/* ================= NAV LINKS ================= */
-.nav {
-  margin-left: auto;
-  display: flex;
-  gap: 22px;
-}
-
-.nav a {
-  color: #e8f0f7;
-  text-decoration: none;
-  font-weight: 600;
-  padding: 8px 12px;
-  border-radius: 10px;
-}
-
-.nav a:hover {
-  background: rgba(255,255,255,0.08);
-}
-
-.nav .pill {
-  background: var(--dgpe-accent);
-  color: #ffffff;
-  padding: 10px 18px;
-  border-radius: 999px;
-}
-
 /* ================= LOGIN ================= */
 .login-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 60px 16px;
+  padding: 80px 16px;
 }
 
 .login-card {
@@ -135,7 +111,6 @@ body.login-page {
 
   border-radius: 16px;
   padding: 28px;
-
   box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 
@@ -149,7 +124,6 @@ body.login-page {
 .input {
   width: 100%;
   padding: 12px;
-
   border-radius: 10px;
   border: 1px solid #d0d7de;
   margin: 6px 0 14px;
@@ -165,10 +139,8 @@ body.login-page {
 .btn {
   width: 100%;
   padding: 14px;
-
   background: var(--dgpe-accent);
   color: #ffffff;
-
   font-weight: 700;
   border: none;
   border-radius: 999px;
@@ -188,10 +160,6 @@ body.login-page {
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 960px) {
-  .nav {
-    display: none;
-  }
-
   .logo {
     height: 90px;
   }
