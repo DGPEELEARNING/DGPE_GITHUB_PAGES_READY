@@ -1,17 +1,28 @@
+/* ================= VARIABLES ================= */
 :root {
   --dgpe-accent: #1e66ff;
   --text: #e6edf3;
   --muted: #a7b1bd;
-  --glass: rgba(255, 255, 255, .06);
-  --glass-bd: rgba(255, 255, 255, .08);
+  --glass: rgba(255, 255, 255, 0.06);
+  --glass-bd: rgba(255, 255, 255, 0.08);
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+}
 
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= BACKGROUND ================= */
 body {
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
   color: var(--text);
+  min-height: 100vh;
+
   background: url("/DGPE_GITHUB_PAGES_READY/actifs/img/fond-nuit.jpg")
               center / cover fixed no-repeat;
 }
@@ -21,65 +32,69 @@ body.login-page {
               center / cover fixed no-repeat;
 }
 
-/* ===== NAVBAR ===== */
+/* ================= NAVBAR ================= */
 .navbar,
 .navbar-login {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(5, 20, 36, .75);
+
+  background: rgba(5, 20, 36, 0.75);
   backdrop-filter: blur(6px);
-  border-bottom: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .wrap {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 20px;
+  padding: 14px 20px;
+
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-/* ===== LOGO ===== */
+/* ================= LOGO ================= */
 .logo-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .logo {
-  height: 120px;
+  height: 110px;
   width: auto;
   object-fit: contain;
+
   filter:
-    drop-shadow(0 0 6px rgba(30,102,255,.7))
-    drop-shadow(0 0 12px rgba(30,102,255,.5));
+    drop-shadow(0 0 6px rgba(30,102,255,0.6))
+    drop-shadow(0 0 12px rgba(30,102,255,0.4));
 }
 
 .brand {
   font-size: 34px;
   font-weight: 700;
-  color: #fff;
+  color: #ffffff;
   white-space: nowrap;
+
   animation: pulseGlow 2.5s ease-in-out infinite;
 }
 
 @keyframes pulseGlow {
   0% {
-    text-shadow: 0 0 6px rgba(255,255,255,.4);
+    text-shadow: 0 0 6px rgba(255,255,255,0.4);
   }
   50% {
     text-shadow:
-      0 0 12px rgba(255,255,255,.8),
-      0 0 24px rgba(30,102,255,.8);
+      0 0 12px rgba(255,255,255,0.8),
+      0 0 24px rgba(30,102,255,0.8);
   }
   100% {
-    text-shadow: 0 0 6px rgba(255,255,255,.4);
+    text-shadow: 0 0 6px rgba(255,255,255,0.4);
   }
 }
 
-/* ===== NAV ===== */
+/* ================= NAV LINKS ================= */
 .nav {
   margin-left: auto;
   display: flex;
@@ -90,40 +105,51 @@ body.login-page {
   color: #e8f0f7;
   text-decoration: none;
   font-weight: 600;
-  padding: 8px 10px;
+  padding: 8px 12px;
   border-radius: 10px;
 }
 
 .nav a:hover {
-  background: rgba(255,255,255,.08);
+  background: rgba(255,255,255,0.08);
 }
 
 .nav .pill {
   background: var(--dgpe-accent);
-  color: #fff;
-  padding: 10px 16px;
+  color: #ffffff;
+  padding: 10px 18px;
   border-radius: 999px;
 }
 
-/* ===== LOGIN ===== */
+/* ================= LOGIN ================= */
 .login-wrap {
   display: flex;
   justify-content: center;
-  padding: 40px 16px;
+  align-items: center;
+  padding: 60px 16px;
 }
 
 .login-card {
   width: 420px;
-  background: #fff;
+  background: #ffffff;
   color: #0b1a2b;
+
   border-radius: 16px;
   padding: 28px;
-  box-shadow: 0 20px 50px rgba(0,0,0,.25);
+
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 
+.login-card h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+/* ================= INPUTS ================= */
 .input {
   width: 100%;
   padding: 12px;
+
   border-radius: 10px;
   border: 1px solid #d0d7de;
   margin: 6px 0 14px;
@@ -132,30 +158,45 @@ body.login-page {
 .input:focus {
   outline: none;
   border-color: #84b2ff;
-  box-shadow: 0 0 0 3px rgba(30,102,255,.2);
+  box-shadow: 0 0 0 3px rgba(30,102,255,0.2);
 }
 
+/* ================= BUTTONS ================= */
 .btn {
-  display: inline-block;
   width: 100%;
-  text-align: center;
-  background: var(--dgpe-accent);
-  color: #fff;
-  font-weight: 700;
   padding: 14px;
-  border-radius: 999px;
+
+  background: var(--dgpe-accent);
+  color: #ffffff;
+
+  font-weight: 700;
   border: none;
+  border-radius: 999px;
   cursor: pointer;
 }
 
-/* ===== FOOTER ===== */
+.btn + .btn {
+  margin-top: 12px;
+}
+
+/* ================= FOOTER ================= */
 .footer {
   text-align: center;
   padding: 24px;
   color: var(--muted);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width:960px) {
-  .nav { display: none; }
+/* ================= RESPONSIVE ================= */
+@media (max-width: 960px) {
+  .nav {
+    display: none;
+  }
+
+  .logo {
+    height: 90px;
+  }
+
+  .brand {
+    font-size: 28px;
+  }
 }
